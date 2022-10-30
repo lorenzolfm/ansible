@@ -3,5 +3,6 @@
 sudo apt install software-properties-common && \
 sudo apt install git && \
 sudo apt install build-essential && \
+sudo apt install curl && \
 sudo apt-add-repository --yes --update ppa:ansible/ansible && \
 sudo apt install ansible
