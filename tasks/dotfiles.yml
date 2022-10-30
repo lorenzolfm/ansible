@@ -1,0 +1,19 @@
+- name: Setup  dotfiles
+  shell: alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME && echo ".cfg" >> .gitignore'
+  tags:
+    - dotfiles
+
+- name: Clone repo
+  shell: git clone --bare git@github.com:lorenzolfm/dotfiles.git $HOME/.cfg
+  tags:
+    - dotfiles
+
+- name: Disable showUntrackedFiles
+  shell: /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showUntrackedFiles no
+  tags:
+    - dotfiles
+
+- name: Checkout dotfiles
+  shell: /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
+  tags:
+    - dotfiles

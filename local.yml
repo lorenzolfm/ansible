@@ -1,0 +1,32 @@
+- hosts: localhost
+  become: true
+  vars:
+    personal_source_key: "./.ssh/id_rsa"
+    personal_dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+    work_source_key: "./.ssh/id_rsa_work"
+    work_dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_work"
+  pre_tasks:
+    - name: Update Aptitude
+      become: true
+      apt:
+        update_cache: true
+        upgrade: yes
+      tags:
+        - ssh
+        - dotfiles
+        - zsh
+        - tmux
+        - neovim
+        - node
+        - lsp
+        - rust
+  tasks:
+    - include: tasks/ssh.yml
+    - include: tasks/dotfiles.yml
+    - include: tasks/nerdfonts.yml
+    - include: tasks/zsh.yml
+    - include: tasks/tmux.yml
+    - include: tasks/neovim.yml
+    - include: tasks/node.yml
+    - include: tasks/rust.yml
+    - include: tasks/lsp.yml

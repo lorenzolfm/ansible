@@ -1,0 +1,39 @@
+- name: Ensure .ssh directory exists
+  file:
+    dest: "{{ personal_dest_key | dirname }}"
+    mode: 0700
+    state: directory
+  tags:
+    - ssh
+
+- name: Install personal ssh key
+  copy:
+    src: "{{ personal_source_key }}"
+    dest: "{{ personal_dest_key }}"
+    mode: 0600
+  tags:
+    - ssh
+
+- name: Install personal ssh public key
+  copy:
+    src: "{{ personal_source_key }}.pub"
+    dest: "{{ personal_dest_key }}.pub"
+    mode: 0644
+  tags:
+    - ssh
+
+- name: Install work ssh key
+  copy:
+    src: "{{ work_source_key }}"
+    dest: "{{ work_dest_key }}"
+    mode: 0600
+  tags:
+    - ssh
+
+- name: Install work ssh public key
+  copy:
+    src: "{{ work_source_key }}.pub"
+    dest: "{{ work_dest_key }}.pub"
+    mode: 0644
+  tags:
+    - ssh

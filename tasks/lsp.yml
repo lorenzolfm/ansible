@@ -1,0 +1,36 @@
+- name: Install pyright
+  shell: npm install -g pyright
+  tags:
+    - lsp
+
+- name: Install tsserver
+  shell: npm install -g typescript typescript-language-server
+  tags:
+    - lsp
+
+- name: Install vscode-eslint-language-server
+  shell: npm i -g vscode-langservers-extracted
+  tags:
+    - lsp
+
+- name: Install vscode-langservers-extracted
+  shell: npm i -g vscode-langservers-extracted
+  tags:
+    - lsp
+
+- name: Install cssmodules_ls
+  shell: npm install -g cssmodules-language-server
+  tags:
+    - lsp
+
+- name: Install vls
+  shell: npm install -g vls
+  tags:
+    - lsp
+
+- name: Install rust analyzer
+  environment:
+    PATH: "{{ lookup('env','HOME') }}/.cargo/bin:{{ ansible_env.PATH }}"
+  shell: git clone https://github.com/rust-lang/rust-analyzer.git && cd rust-analyzer && cargo xtask install --server
+  tags:
+    - lsp

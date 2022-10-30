@@ -1,0 +1,16 @@
+- name: Download Nerdfonts
+  tags:
+    - zsh
+  ansible.builtin.git:
+    repo: 'https://github.com/ryanoasis/nerd-fonts'
+    dest: '~/nerd-fonts'
+
+- name: Install all fonts
+  shell: '~/./nerd-fonts/install.sh'
+  tags:
+    - zsh
+
+- name: Remove repo
+  shell: rm -rf ~/nerd-fonts
+  tags:
+    - zsh
