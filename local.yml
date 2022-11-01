@@ -1,5 +1,7 @@
 - hosts: localhost
-  become: true
+  vars:
+    home: "/home/lorenzo"
+    ssh_dir: "./.ssh"
   pre_tasks:
     - name: Update Aptitude
       become: true
