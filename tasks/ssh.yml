@@ -1,51 +1,87 @@
 - name: Ensure .ssh directory exists
   file:
-    dest: "{{ personal_dest_key | dirname }}"
+    dest: "~/.ssh"
     mode: 0700
     state: directory
   tags:
     - ssh
 
-- name: Install personal ssh key
+- name: Copy personal ssh private key
   copy:
-    src: "{{ personal_source_key }}"
-    dest: "{{ personal_dest_key }}"
-    mode: 0600
+    src: "../.ssh/id_rsa"
+    dest: "~/.ssh/id_rsa"
   tags:
     - ssh
 
-- name: Install personal ssh public key
+- name: Copy personal ssh public key
   copy:
-    src: "{{ personal_source_key }}.pub"
-    dest: "{{ personal_dest_key }}.pub"
-    mode: 0644
+    src: "../.ssh/id_rsa.pub"
+    dest: "~/.ssh/id_rsa.pub"
   tags:
     - ssh
 
-- name: Install work ssh key
+- name: Copy work ssh private key
   copy:
-    src: "{{ work_source_key }}"
-    dest: "{{ work_dest_key }}"
-    mode: 0600
+    src: "../.ssh/id_rsa_work"
+    dest: "~/.ssh/id_rsa_work"
   tags:
     - ssh
 
-- name: Install work ssh public key
+- name: Copy work ssh public key
   copy:
-    src: "{{ work_source_key }}.pub"
-    dest: "{{ work_dest_key }}.pub"
-    mode: 0644
+    src: "../.ssh/id_rsa_work.pub"
+    dest: "~/.ssh/id_rsa_work.pub"
   tags:
     - ssh
 
-- name: Set authorized key took from file
-  authorized_key:
-    user: "{{ lookup('env', 'USER') }}"
-    state: present
-    key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
-  authorized_key:
-    user: "{{ lookup('env', 'USER') }}"
-    state: present
-    key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_work.pub"
-  with_fileglob:
-  - "{{ lookup('env', 'HOME') }}/.ssh/*.pub"
+#- name: Ensure .ssh directory exists
+  #file:
+    #dest: "{{ personal_dest_key | dirname }}"
+    #mode: 0700
+    #state: directory
+  #tags:
+    #- ssh
+
+#- name: Install personal ssh key
+  #copy:
+    #src: "{{ personal_source_key }}"
+    #dest: "{{ personal_dest_key }}"
+    #mode: 0600
+  #tags:
+    #- ssh
+
+#- name: Install personal ssh public key
+  #copy:
+    #src: "{{ personal_source_key }}.pub"
+    #dest: "{{ personal_dest_key }}.pub"
+    #mode: 0644
+  #tags:
+    #- ssh
+
+#- name: Install work ssh key
+  #copy:
+    #src: "{{ work_source_key }}"
+    #dest: "{{ work_dest_key }}"
+    #mode: 0600
+  #tags:
+    #- ssh
+
+#- name: Install work ssh public key
+  #copy:
+    #src: "{{ work_source_key }}.pub"
+    #dest: "{{ work_dest_key }}.pub"
+    #mode: 0644
+  #tags:
+    #- ssh
+
+#- name: Set authorized key took from file
+  #authorized_key:
+    #user: "{{ lookup('env', 'USER') }}"
+    #state: present
+    #key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
+  #authorized_key:
+    #user: "{{ lookup('env', 'USER') }}"
+    #state: present
+    #key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_work.pub"
+  #with_fileglob:
+  #- "{{ lookup('env', 'HOME') }}/.ssh/*.pub"
