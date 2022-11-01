@@ -1,10 +1,8 @@
 - hosts: localhost
-  become: true
   vars:
-    personal_source_key: "./.ssh/id_rsa"
-    personal_dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
-    work_source_key: "./.ssh/id_rsa_work"
-    work_dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_work"
+    user: "lorenzo"
+    home: "/home/lorenzo"
+    ssh_dir: "./.ssh"
   pre_tasks:
     - name: Update Aptitude
       become: true
