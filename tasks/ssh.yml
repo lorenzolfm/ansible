@@ -10,6 +10,7 @@
   copy:
     src: "{{ ssh_dir }}/id_rsa"
     dest: "{{ home }}/.ssh/id_rsa"
+    mode: 0600
   tags:
     - ssh
 
@@ -17,14 +18,7 @@
   copy:
     src: "{{ ssh_dir }}/id_rsa.pub"
     dest: "{{ home }}/.ssh/id_rsa.pub"
-  tags:
-    - ssh
-
-- name: Set personal key as authorized
-  authorized_key:
-    user: "{{ user }}"
-    state: present
-    key: "{{ home }}/.ssh/id_rsa.pub"
+    mode: 0644
   tags:
     - ssh
 
@@ -32,6 +26,7 @@
   copy:
     src: "{{ ssh_dir }}/id_rsa_work"
     dest: "{{ home }}/.ssh/id_rsa_work"
+    mode: 0600
   tags:
     - ssh
 
@@ -39,5 +34,6 @@
   copy:
     src: "{{ ssh_dir }}/id_rsa_work.pub"
     dest: "{{ home }}/.ssh/id_rsa_work.pub"
+    mode: 0644
   tags:
     - ssh
