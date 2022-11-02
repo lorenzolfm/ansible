@@ -1,5 +1,6 @@
 - hosts: localhost
   vars:
+    user: "{{ lookup('env', 'USER') }}"
     home: "{{ lookup('env', 'HOME') }}"
     ssh_dir: "./.ssh"
   pre_tasks:
