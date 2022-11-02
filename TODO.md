@@ -15,7 +15,6 @@
 
 - [x] Install SSH Keys
 - [X] Install Dotfiles
-    - [ ] clone repo without entering ssh prompt
 
 ## ZSH, NeoVim and Tmux
 
