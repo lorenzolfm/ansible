@@ -1,19 +1,20 @@
-- name: Setup  dotfiles
-  shell: alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME && echo ".cfg" >> .gitignore'
+- name: Ignore .cfg folder to avoid recursion problems with dotfiles
+  shell: echo ".cfg" >> {{ home }}/.gitignore
   tags:
     - dotfiles
 
-- name: Clone repo
-  shell: git clone --bare git@github.com:lorenzolfm/dotfiles.git $HOME/.cfg
+- name: Clone dotfiles into a bare repository
+  shell: git clone --bare git@github.com:lorenzolfm/dotfiles.git {{ home }}/.cfg
   tags:
     - dotfiles
 
-- name: Disable showUntrackedFiles
-  shell: /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showUntrackedFiles no
+- name: Checkout the content from the bare repo to home
+  shell: "{{ config }} checkout"
   tags:
     - dotfiles
 
-- name: Checkout dotfiles
-  shell: /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
+- name: Set the flag showUntrackedFiles to no on this specific (local) repo
+  shell:
+    "{{ config }} config --local status.showUntrackedFiles no"
   tags:
     - dotfiles
