@@ -1,7 +1,7 @@
 - hosts: localhost
   vars:
-    user: "lorenzo"
-    home: "/home/lorenzo"
+    user: "{{ lookup('env', 'USER') }}"
+    home: "{{ lookup('env', 'HOME') }}"
     ssh_dir: "./.ssh"
   pre_tasks:
     - name: Update Aptitude
