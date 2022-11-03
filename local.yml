@@ -4,23 +4,8 @@
     home: "{{ lookup('env', 'HOME') }}"
     ssh_dir: "./.ssh"
     config: "/usr/bin/git --git-dir={{ lookup('env', 'HOME') }}/.cfg/ --work-tree={{ lookup('env', 'HOME') }}"
-  pre_tasks:
-    - name: Update Aptitude
-      become: true
-      apt:
-        update_cache: true
-        upgrade: yes
-      tags:
-        - ssh
-        - dotfiles
-        - nerdfonts
-        - zsh
-        - tmux
-        - neovim
-        - node
-        - lsp
-        - rust
   tasks:
+    - include: tasks/debug.yml
     - include: tasks/ssh.yml
     - include: tasks/node.yml
     - include: tasks/rust.yml

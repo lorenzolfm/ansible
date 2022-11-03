@@ -1,0 +1,5 @@
+- name: Pls help me god
+  debug:
+    msg: "User: {{ user }}, Home: {{ home }}, Config: {{ config }}"
+  tags:
+    - debug
