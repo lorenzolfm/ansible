@@ -11,5 +11,6 @@ sudo apt install ansible --yes && \
 sudo apt install zsh --yes && rm -rf $HOME/.zshrc && \
 sudo apt install tmux --yes && \
 sudo apt install ripgrep --yes && \
+curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh && sudo bash nodesource_setup.sh && sudo apt install nodejs && \
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash && \
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
