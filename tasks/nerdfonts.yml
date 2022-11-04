@@ -1,7 +1,5 @@
 - name: Download Nerdfonts
-  ansible.builtin.git:
-    repo: "https://github.com/ryanoasis/nerd-fonts"
-    dest: "{{ home }}/nerd-fonts"
+  shell: "git clone https://github.com/ryanoasis/nerd-fonts {{ home }}/nerd-fonts"
   tags:
     - nerdfonts
 
