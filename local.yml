@@ -7,7 +7,7 @@
     ssh_dir: "./.ssh"
     config: "/usr/bin/git --git-dir={{ lookup('env', 'HOME') }}/.cfg/ --work-tree={{ lookup('env', 'HOME') }}"
   vars_prompt:
-    - name: "user_password"
+    - name: "password"
       prompt: Enter password
       private: yes
   tasks:
