@@ -8,4 +8,5 @@ sudo apt install build-essential --yes && \
 sudo apt install curl --yes && \
 sudo apt-add-repository --yes --update ppa:ansible/ansible && \
 sudo apt install ansible --yes && \
-sudo apt install nodejs --yes \
+sudo apt install nodejs --yes && \
+sudo apt install npm --yes
