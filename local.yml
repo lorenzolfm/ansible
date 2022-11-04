@@ -1,5 +1,4 @@
 - hosts: localhost
-  become_user: lorenzo
   vars:
     user: "{{ lookup('env', 'USER') }}"
     home: "{{ lookup('env', 'HOME') }}"
