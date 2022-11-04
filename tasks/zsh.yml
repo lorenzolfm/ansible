@@ -4,7 +4,10 @@
     - zsh
 
 - name: Change shell to zsh
-  shell: chsh -s $(which zsh)
+  expect:
+    command: "chsh -s /usr/bin/zsh"
+    responses:
+      (?i)password: "{{ password }}"
   tags:
     - zsh
 
@@ -14,10 +17,7 @@
     - zsh
 
 - name: Install Spaceship theme
-  git:
-    repo: "https://github.com/spaceship-prompt/spaceship-prompt.git"
-    dest: "{{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt"
-    depth: 1
+  shell: "git clone https://github.com/spaceship-prompt/spaceship-prompt.git {{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt"
   tags:
     - zsh
 
@@ -27,16 +27,12 @@
     - zsh
 
 - name: Install zsh-z plugin
-  git:
-    repo: "https://github.com/agkozak/zsh-z.git"
-    dest: "{{ home }}/.oh-my-zsh/plugins/zsh-z"
+  shell: "git clone https://github.com/agkozak/zsh-z.git {{ home }}/.oh-my-zsh/plugins/zsh-z"
   tags:
     - zsh
 
 - name: Install zsh-autosuggestions
-  git:
-    repo: "https://github.com/zsh-users/zsh-autosuggestions.git"
-    dest: "{{ home }}/.oh-my-zsh/plugins/zsh-autosuggestions"
+  shell: "git clone https://github.com/zsh-users/zsh-autosuggestions.git {{ home }}/.oh-my-zsh/plugins/zsh-autosuggestions"
   tags:
     - zsh
 
