@@ -13,7 +13,6 @@
   tasks:
     - include: tasks/debug.yml
     - include: tasks/ssh.yml
-    - include: tasks/node.yml
     - include: tasks/dotfiles.yml
     - include: tasks/nerdfonts.yml
     - include: tasks/tmux.yml

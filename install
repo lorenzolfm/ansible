@@ -12,5 +12,13 @@ sudo apt install zsh --yes && rm -rf $HOME/.zshrc && \
 sudo apt install tmux --yes && \
 sudo apt install ripgrep --yes && \
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash && \
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" \
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
+nvm install node && \
+npm install -g pyright && \
+npm install -g typescript typescript-language-server && \
+npm i -g vscode-langservers-extracted && \
+npm install -g cssmodules-language-server && \
+npm install -g vls && \
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh && \
 rm -rf .zshenv
