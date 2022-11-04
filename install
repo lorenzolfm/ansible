@@ -10,4 +10,6 @@ sudo apt-add-repository --yes --update ppa:ansible/ansible && \
 sudo apt install ansible --yes && \
 sudo apt install nodejs --yes && \
 sudo apt install npm --yes && \
+sudo apt install tmux --yes && \
+sudo apt install ripgrep --yes && \
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
