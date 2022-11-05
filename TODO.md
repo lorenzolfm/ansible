@@ -23,7 +23,7 @@
 - [X] Install oh-my-zsh
 - [X] Install zsh theme
 - [X] Install zsh plugins
-    - [ ] Overwrite .zshrc with .zshrc.pre-oh-my-zsh
+    - [X] Overwrite .zshrc with .zshrc.pre-oh-my-zsh
 
 - [x] Install tmux
 - [X] Install tpm
@@ -46,5 +46,13 @@
 - [ ] Install Brave
 - [ ] Install Discord
 - [ ] Install Work dependencies
-- [ ] Clone major repos
+- [ ] Install password repo
 - [ ] Install KeepassXC
+- [ ] Install wallpaper
+- [ ] Change terminal settings
+- [ ] Install sparrow
+- [ ] Create keyboard shortcuts
+
+## Ansible
+
+- I'm currently installing a bunch of stuff from install script... this should be done with ansible but I need to do it for current user, not as root!
