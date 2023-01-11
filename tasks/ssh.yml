@@ -1,16 +1,19 @@
 - name: Ensure .ssh directory exists
+  tags: ssh
   file:
     dest: "{{ home }}/.ssh"
     mode: 0700
     state: directory
 
 - name: Copy personal ssh private key
+  tags: ssh
   copy:
     src: "{{ ssh_dir }}/id_rsa"
     dest: "{{ home }}/.ssh/id_rsa"
     mode: 0600
 
 - name: Copy personal ssh public key
+  tags: ssh
   copy:
     src: "{{ ssh_dir }}/id_rsa.pub"
     dest: "{{ home }}/.ssh/id_rsa.pub"
