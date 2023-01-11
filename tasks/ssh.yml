@@ -18,5 +18,10 @@
     src: "{{ ssh_dir }}/id_rsa.pub"
     dest: "{{ home }}/.ssh/id_rsa.pub"
     mode: 0644
-  tags:
-    - ssh
+
+- name: Copy known hosts
+  tags: ssh
+  copy:
+    src: "{{ ssh_dir }}/known_hosts"
+    dest: "{{ home }}/.ssh/known_hosts"
+    mode: 0644
