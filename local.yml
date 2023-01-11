@@ -2,8 +2,10 @@
   vars:
     home: "{{ home }}"
     ssh_dir: "./.ssh/"
+    config: "/usr/bin/git --git-dir={{ home }}/.cfg/ --work-tree={{ home }}"
   tasks:
     - include: tasks/ssh.yml
+    - include: tasks/dotfiles.yml
 
 # OLD STUFF: 
 #- hosts: localhost
