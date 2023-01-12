@@ -12,4 +12,4 @@ test_equals $current_workdir "/home/lorenzo/ansible"
 echo -e "\nTesting if lorenzo:lorenzo owns the encrypted .ssh folder...\n"
 
 
-test_directory_owner_group_and_permissions "/home/lorenzo/ansible/.ssh" "lorenzo" "lorenzo" 775
+assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/ansible/.ssh" "lorenzo" "lorenzo" 775
