@@ -27,7 +27,49 @@
   shell: "{{ config }} checkout"
 
 - name: Set the flag showUntrackedFiles to no on this specific (local) repo
+  tags: dotfiles
   shell:
     "{{ config }} config --local status.showUntrackedFiles no"
-  tags:
-    - dotfiles
+
+- name: Set the correct permissions for nvim
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.config/nvim"
+    mode: 0775
+
+- name: Set the correct permissions for ssh config
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.ssh/config"
+    mode: 0604
+
+
+- name: Set the correct permissions for .aliases
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.aliases"
+    mode: 0664
+
+- name: Set the correct permissions for .gitconfig
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.gitconfig"
+    mode: 0664
+
+- name: Set the correct permissions for .tmux.conf
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.tmux.conf"
+    mode: 0664
+
+- name: Set the correct permissions for .zshenv
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.zshenv"
+    mode: 0664
+
+- name: Set the correct permissions for .zshrc
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.zshrc"
+    mode: 0664
