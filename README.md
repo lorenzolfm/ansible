@@ -23,4 +23,4 @@ I also created bashscripts to test that everything works as expected, so I don't
 
 This is how I run the playbook:
 
-`ansible-playbook local.yml --ask-vault-pass --extra-vars "home=/home/lorenzo" -K`
+`ansible-playbook local.yml --ask-vault-pass --extra-vars "home=/home/lorenzo"`
