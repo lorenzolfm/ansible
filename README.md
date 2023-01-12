@@ -1,6 +1,6 @@
 # Ansible
 
-Have you ever lost dozens of hours trying to get a new machine up to date with all you need in your day to day life?
+Have you ever lost dozens of hours trying to get a new machine up and running with all you need in your day to day life?
 
 Ansible is a great tool to solve this problem!
 
