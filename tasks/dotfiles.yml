@@ -1,20 +1,75 @@
-- name: Ignore .cfg folder to avoid recursion problems with dotfiles
+- name: Ignore .cfg folder to avoid wierd recursion problems with the dotfiles
+  tags: dotfiles
   shell: echo ".cfg" >> {{ home }}/.gitignore
-  tags:
-    - dotfiles
+
+- name: Set correct file permissions
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.gitignore"
+    mode: 0664
 
 - name: Clone dotfiles into a bare repository
-  shell: git clone --bare git@github.com:lorenzolfm/dotfiles.git {{ home }}/.cfg
-  tags:
-    - dotfiles
+  tags: dotfiles
+  git:
+    repo: git@github.com:lorenzolfm/dotfiles.git
+    dest: "{{ home }}/.cfg"
+    key_file: "{{ home }}/.ssh/id_rsa"
+    bare: true
+
+- name: Set correct directory permissions
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.cfg"
+    mode: 0775
 
 - name: Checkout the content from the bare repo to home
+  tags: dotfiles
   shell: "{{ config }} checkout"
-  tags:
-    - dotfiles
 
 - name: Set the flag showUntrackedFiles to no on this specific (local) repo
+  tags: dotfiles
   shell:
     "{{ config }} config --local status.showUntrackedFiles no"
-  tags:
-    - dotfiles
+
+- name: Set the correct permissions for nvim
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.config/nvim"
+    mode: 0775
+
+- name: Set the correct permissions for ssh config
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.ssh/config"
+    mode: 0604
+
+
+- name: Set the correct permissions for .aliases
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.aliases"
+    mode: 0664
+
+- name: Set the correct permissions for .gitconfig
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.gitconfig"
+    mode: 0664
+
+- name: Set the correct permissions for .tmux.conf
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.tmux.conf"
+    mode: 0664
+
+- name: Set the correct permissions for .zshenv
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.zshenv"
+    mode: 0664
+
+- name: Set the correct permissions for .zshrc
+  tags: dotfiles
+  file:
+    path: "{{ home }}/.zshrc"
+    mode: 0664
