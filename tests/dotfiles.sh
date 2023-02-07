@@ -1,7 +1,7 @@
 #! /bin/bash
 source ./tests/utils.sh
 
-echo -e "Testing the dotfiles setup\n"
+echo -e "\nTesting the dotfiles setup\n"
 
 assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.gitignore" "lorenzo" "lorenzo" 664
 

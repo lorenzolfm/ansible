@@ -1,20 +1,39 @@
+- name: Install zsh
+  become: true
+  tags: zsh
+  apt:
+    name: zsh
+
 - name: Change shell to zsh
-  expect:
-    command: "chsh -s /usr/bin/zsh"
-    responses:
-      (?i)password: "{{ password }}"
-  tags:
-    - zsh
+  become: true
+  shell: chsh -s $(which zsh)
 
 - name: Install Oh-My-Zsh
+  tags: zsh
   shell: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  tags:
-    - zsh
+
+- name: Check if zshrc.pre-oh-my-zsh exists
+  tags: zsh
+  stat:
+    path: "{{ home }}/.zshrc.pre-oh-my-zsh"
+  register: old_zshrc_exists
+
+- name: Replace .zshrc with .zshrc.pre-oh-my-zsh
+  tags: zsh
+  shell: "rm -rf {{ home }}/.zshrc && mv {{ home }}/.zshrc.pre-oh-my-zsh {{ home }}/.zshrc"
+  when: old_zshrc_exists.stat.exists
 
 - name: Install Spaceship theme
-  shell: "git clone https://github.com/spaceship-prompt/spaceship-prompt.git {{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt"
-  tags:
-    - zsh
+  tags: zsh
+  git:
+    repo: https://github.com/spaceship-prompt/spaceship-prompt.git
+    dest: "{{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt"
+
+- name: Change permissions for Spaceship theme folder
+  tags: zsh
+  file:
+    path: "{{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt"
+    mode: 0775
 
 - name: Symlink spaceship.zsh-theme to oh-my-zsh custom themes directory
   shell: "ln -s {{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme {{ home }}/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
@@ -22,24 +41,19 @@
     - zsh
 
 - name: Install zsh-z plugin
-  shell: "git clone https://github.com/agkozak/zsh-z.git {{ home }}/.oh-my-zsh/plugins/zsh-z"
-  tags:
-    - zsh
+  tags: zsh
+  git:
+    repo: https://github.com/agkozak/zsh-z.git
+    dest: "{{ home }}/.oh-my-zsh/plugins/zsh-z" 
 
 - name: Install zsh-autosuggestions
-  shell: "git clone https://github.com/zsh-users/zsh-autosuggestions.git {{ home }}/.oh-my-zsh/plugins/zsh-autosuggestions"
-  tags:
-    - zsh
+  tags: zsh
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions.git
+    dest: "{{ home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 
-- name: Check if zshrc.pre-oh-my-zsh exists
-  stat:
-    path: "{{ home }}/.zshrc.pre-oh-my-zsh"
-  register: old_zshrc_exists
-  tags:
-    - zsh
-
-- name: Replace .zshrc with .zshrc.pre-oh-my-zsh
-  shell: "rm -rf {{ home }}/.zshrc && mv {{ home }}/.zshrc.pre-oh-my-zsh {{ home }}/.zshrc"
-  when: old_zshrc_exists.stat.exists
-  tags:
-    - zsh
+- name: Change permissions for zsh-autosuggestions
+  tags: zsh
+  file:
+    path: "{{ home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    mode: 0775
