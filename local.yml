@@ -6,6 +6,8 @@
   tasks:
     - include: tasks/ssh.yml
     - include: tasks/dotfiles.yml
+    - include: tasks/languages.yml
+    - include: tasks/zsh.yml
 
 # OLD STUFF: 
 #- hosts: localhost
