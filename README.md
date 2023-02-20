@@ -18,8 +18,14 @@ I don't want to test this playbook by reinstalling my OS and running the playboo
 
 I also created bash scripts to test that everything works as expected, so I don't have to do this boring stuff manually
 
+```bash
+docker build -t ansible-test . && docker run --rm -it ansible-test bash 
+```
+
 # Running
 
 This is how I run the playbook:
 
-`ansible-playbook local.yml --ask-vault-pass --extra-vars "home=/home/lorenzo" -K`
+```bash
+ansible-playbook local.yml --ask-vault-pass --extra-vars "home=/home/lorenzo" -K
+```
