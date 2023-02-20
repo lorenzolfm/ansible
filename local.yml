@@ -9,3 +9,4 @@
     - include: tasks/languages.yml
     - include: tasks/zsh.yml
     - include: tasks/tmux.yml
+    - include: tasks/misc.yml
