@@ -60,3 +60,23 @@ function assert_exits_has_correct_owner_group_and_permissions {
   fi
 }
 
+function assert_does_not_exist {
+    local path=$1
+
+    if test -e "$path"
+    then
+        print_in_color "Failed: $path still exists" "red"
+    else
+        print_in_color "Success: $path deleted" "green"
+    fi
+}
+
+function check_command {
+    local command=$1
+
+    if $command --version > /dev/null 2>&1; then
+        print_in_color "Success: $command is installed" "green"
+    else
+        print_in_color "Failed: $command is not installed" "red"
+    fi
+}

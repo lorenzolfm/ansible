@@ -1,12 +1,12 @@
 #!/bin/bash
 source ./tests/utils.sh
 
-echo -e "\nTesting the languages task\n"
+echo -e "\nTesting the languages task...\n"
 
 source /home/lorenzo/.zshenv
 
-if rustc --version > /dev/null 2>&1; then
-    print_in_color "Success: Rust is installed" "green"
-else
-    print_in_color "Failed: Rust is not installed" "red"
-fi
+check_command rustc # failing
+check_command node # not passing but installed
+check_command npm # not passing but installed
+
+assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.nvm" "lorenzo" "lorenzo" 775
