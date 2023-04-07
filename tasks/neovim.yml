@@ -2,13 +2,16 @@
   shell: "curl -L https://github.com/neovim/neovim/releases/download/v0.7.2/nvim.appimage -o {{ home }}/nvim.appimage"
   tags:
     - neovim
+    - essentials
 
 - name: Make it executable
   shell: "chmod u+x {{ home }}/nvim.appimage"
   tags:
     - neovim
+    - essentials
 
 - name: Install Vim-Plug
   shell: "sh -c 'curl -fLo {{ home }}/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'"
   tags:
     - neovim
+    - essentials

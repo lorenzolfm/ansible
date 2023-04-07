@@ -1,14 +1,6 @@
 # Install
 
-* Telescope dependencies
-* Nerdfonts
-* KeepassXC and file
-* Node (any other language?)
-* Spotify
-* Brave
-* Slack
-* Discord
-* Telegram
+* Sparrow
 * Change terminal settings
 
 # Test

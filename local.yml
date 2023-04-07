@@ -8,5 +8,6 @@
     - include: tasks/dotfiles.yml
     - include: tasks/languages.yml
     - include: tasks/zsh.yml
+    - include: tasks/docker.yml
     - include: tasks/tmux.yml
     - include: tasks/misc.yml

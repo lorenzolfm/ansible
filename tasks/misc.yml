@@ -1,0 +1,168 @@
+- name: Install fd-find (telescope dependencies)
+  become: true
+  tags: misc
+  apt:
+    name: fd-find
+
+- name: Create .local/bin directory
+  shell: "mkdir -p {{ home }}/.local/bin"
+
+- name: Create symbolik link to fd in .local/bin
+  tags: misc
+  shell: "ln -s $(which fdfind) {{ home }}/.local/bin/fd"
+
+- name: Install ripgrep (telescope dependencies)
+  become: true
+  tags: misc
+  apt:
+    name: ripgrep
+
+- name: Install KeePassXc
+  become: true
+  tags: misc
+  apt:
+    name: keepassxc
+
+- name: Download password repo
+  tags: misc
+  git:
+    repo: git@github.com:lorenzolfm/pwds.git
+    dest: "{{ home }}/pwds"
+    key_file: "{{ home }}/.ssh/id_rsa"
+
+- name: Change permissions for passwords folder
+  tags: misc
+  file:
+    path: "{{ home }}/pwds"
+    mode: 0775
+
+- name: Add Spotify's GPG key
+  shell: curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+
+- name: Download nerdfonts
+  tags: misc
+  git:
+    repo: https://github.com/ryanoasis/nerd-fonts
+    dest: "{{ home }}/nerd-fonts"
+
+- name: Install FiraCode
+  tags: misc
+  shell: "{{ home }}/./nerd-fonts/install.sh FiraCode"
+
+- name: Remove nerd-fonts repo
+  tags: misc
+  shell: "rm -rf {{ home }}/nerd-fonts"
+
+- name: Change permissions for fonts
+  tags: misc
+  file:
+    path: "{{ home }}/.local/share/fonts/NerdFonts"
+    mode: 0775
+
+- name: Add Spotify repository key and source
+  tags: misc
+  become: true
+  shell: |
+    curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+    echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+
+- name: Install Spotify client
+  tags: misc
+  become: true
+  apt:
+    name: spotify-client
+    update_cache: yes
+
+
+- name: Download Brave keyring
+  tags: misc
+  become: true
+  get_url:
+    url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+    dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
+    mode: '0644'
+
+- name: Add Brave repository to sources list
+  tags: misc
+  become: true
+  lineinfile:
+    path: /etc/apt/sources.list.d/brave-browser-release.list
+    line: 'deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main'
+    create: true
+    state: present
+
+- name: Update apt cache
+  tags: misc
+  become: true
+  apt:
+    update_cache: yes
+
+- name: Install Brave browser
+  tags: misc
+  become: true
+  apt:
+    name: brave-browser
+    state: present
+
+- name: Download Slack
+  tags: misc
+  get_url:
+    url: https://downloads.slack-edge.com/linux_releases/slack-desktop-4.19.2-amd64.deb
+    dest: /tmp/slack.deb
+
+- name: Remove Any previous slacks
+  tags: misc
+  become: true
+  apt:
+    name: slack-desktop
+    state: absent
+
+- name: Install Slack .deb package
+  tags: misc
+  become: true
+  apt:
+    deb: /tmp/slack.deb
+
+- name: Download Discord .deb package
+  tags: misc
+  become: true
+  get_url:
+    url: https://discord.com/api/download?platform=linux&format=deb
+    dest: /tmp/discord.deb
+
+- name: Install Discord
+  tags: misc
+  become: true
+  apt:
+    deb: /tmp/discord.deb
+
+- name: Install Telegram
+  tags: misc
+  become: true
+  apt:
+    name: telegram-desktop
+
+- name: Import PGP key from Keybase
+  tags: sparrow
+  shell: "curl https://keybase.io/craigraw/pgp_keys.asc | gpg --import"
+
+- name: Verify Sparrow signature
+  shell: "gpg --verify sparrow-1.7.3-manifest.txt.asc"
+  args:
+    chdir: /path/to/sparrow/directory
+
+- name: Check SHA256 checksum
+  shell: "sha256sum --check sparrow-1.7.3-manifest.txt --ignore-missing"
+  args:
+    chdir: /path/to/sparrow/directory
+
+- name: Download and install Sparrow
+  get_url:
+    url: https://github.com/sparrowwallet/sparrow/releases/download/1.7.3/sparrow_1.7.3-1_amd64.deb
+    dest: /tmp/sparrow.deb
+  become: true
+
+- name: Install Sparrow package
+  apt:
+    deb: /tmp/sparrow.deb
+  become: true
