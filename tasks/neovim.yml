@@ -1,3 +1,31 @@
+- name: Install fd-find (telescope dependencies)
+  become: true
+  apt:
+    name: fd-find
+  tags:
+    - neovim
+    - essentials
+
+- name: Create .local/bin directory
+  shell: "mkdir -p {{ home }}/.local/bin"
+  tags:
+    - neovim
+    - essentials
+
+- name: Create symbolik link to fd in .local/bin
+  shell: "ln -s $(which fdfind) {{ home }}/.local/bin/fd"
+  tags:
+    - neovim
+    - essentials
+
+- name: Install ripgrep (telescope dependencies)
+  become: true
+  apt:
+    name: ripgrep
+  tags:
+    - neovim
+    - essentials
+
 - name: Install NeoVim
   shell: "curl -L https://github.com/neovim/neovim/releases/download/v0.7.2/nvim.appimage -o {{ home }}/nvim.appimage"
   tags:

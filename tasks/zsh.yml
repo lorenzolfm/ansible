@@ -1,59 +1,81 @@
 - name: Install zsh
   become: true
-  tags: zsh
   apt:
     name: zsh
+  tags: 
+    - zsh
+    - essentials
 
 - name: Change shell to zsh
   become: true
   shell: chsh -s $(which zsh)
+  tags: 
+    - zsh
+    - essentials
 
 - name: Install Oh-My-Zsh
-  tags: zsh
   shell: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  tags: 
+    - zsh
+    - essentials
 
 - name: Check if zshrc.pre-oh-my-zsh exists
-  tags: zsh
   stat:
     path: "{{ home }}/.zshrc.pre-oh-my-zsh"
   register: old_zshrc_exists
+  tags: 
+    - zsh
+    - essentials
 
 - name: Replace .zshrc with .zshrc.pre-oh-my-zsh
-  tags: zsh
   shell: "rm -rf {{ home }}/.zshrc && mv {{ home }}/.zshrc.pre-oh-my-zsh {{ home }}/.zshrc"
   when: old_zshrc_exists.stat.exists
+  tags: 
+    - zsh
+    - essentials
 
 - name: Install Spaceship theme
-  tags: zsh
   git:
     repo: https://github.com/spaceship-prompt/spaceship-prompt.git
     dest: "{{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt"
+  tags: 
+    - zsh
+    - essentials
 
 - name: Change permissions for Spaceship theme folder
-  tags: zsh
   file:
     path: "{{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt"
     mode: 0775
+  tags: 
+    - zsh
+    - essentials
 
 - name: Symlink spaceship.zsh-theme to oh-my-zsh custom themes directory
   shell: "ln -s {{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme {{ home }}/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
-  tags:
+  tags: 
     - zsh
+    - essentials
 
 - name: Install zsh-z plugin
-  tags: zsh
   git:
     repo: https://github.com/agkozak/zsh-z.git
     dest: "{{ home }}/.oh-my-zsh/plugins/zsh-z" 
+  tags: 
+    - zsh
+    - essentials
 
 - name: Install zsh-autosuggestions
-  tags: zsh
   git:
     repo: https://github.com/zsh-users/zsh-autosuggestions.git
     dest: "{{ home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+  tags: 
+    - zsh
+    - essentials
 
 - name: Change permissions for zsh-autosuggestions
-  tags: zsh
   file:
     path: "{{ home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
     mode: 0775
+  tags: 
+    - zsh
+    - essentials
