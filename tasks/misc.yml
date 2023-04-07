@@ -144,33 +144,33 @@
     - telegram
     - misc
 
-#- name: Download nerdfonts
-  #git:
-    #repo: https://github.com/ryanoasis/nerd-fonts
-    #dest: "{{ home }}/nerd-fonts"
-  #tags: 
-    #- nerdfonts
-    #- misc
+- name: Download nerdfonts
+  git:
+    repo: https://github.com/ryanoasis/nerd-fonts
+    dest: "{{ home }}/nerd-fonts"
+  tags: 
+    - nerdfonts
+    - misc
 
-#- name: Install FiraCode
-  #shell: "{{ home }}/./nerd-fonts/install.sh FiraCode"
-  #tags:
-    #- nerdfonts
-    #- misc
+- name: Install FiraCode
+  shell: "{{ home }}/./nerd-fonts/install.sh FiraCode"
+  tags:
+    - nerdfonts
+    - misc
 
-#- name: Remove nerd-fonts repo
-  #shell: "rm -rf {{ home }}/nerd-fonts"
-  #tags:
-    #- nerdfonts
-    #- misc
+- name: Remove nerd-fonts repo
+  shell: "rm -rf {{ home }}/nerd-fonts"
+  tags:
+    - nerdfonts
+    - misc
 
-#- name: Change permissions for fonts
-  #file:
-    #path: "{{ home }}/.local/share/fonts/NerdFonts"
-    #mode: 0775
-  #tags:
-    #- nerdfonts
-    #- misc
+- name: Change permissions for fonts
+  file:
+    path: "{{ home }}/.local/share/fonts/NerdFonts"
+    mode: 0775
+  tags:
+    - nerdfonts
+    - misc
 
 #- name: Import PGP key from Keybase
   #shell: "curl https://keybase.io/craigraw/pgp_keys.asc | gpg --import"
