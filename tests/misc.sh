@@ -2,6 +2,18 @@ source ./tests/utils.sh
 
 echo -e "\nTesting misc setup...\n"
 
+echo -e "\nTesting terminal settings...\n"
+
+dconf dump /org/gnome/terminal/ > current-preferences.dconf
+
+if diff -q current-preferences.dconf gnome-terminal-preferences.dconf >/dev/null; then
+    print_in_color "Success: terminal preferences updated" "green"
+else
+    print_in_color "Failed: terminal settings failed to update" "red"
+fi
+
+rm current-preferences.dconf
+
 echo -e "\nTesting keepass...\n"
 
 assert_exits_has_correct_owner_group_and_permissions "/usr/bin/keepassxc" "root" "root" 755
