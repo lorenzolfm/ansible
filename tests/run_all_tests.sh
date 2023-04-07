@@ -7,3 +7,4 @@ source ./tests/languages.sh
 source ./tests/zsh.sh
 source ./tests/tmux.sh
 source ./tests/misc.sh
+source ./tests/neovim.sh

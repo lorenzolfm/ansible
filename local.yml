@@ -10,4 +10,5 @@
     - include: tasks/zsh.yml
     - include: tasks/docker.yml
     - include: tasks/tmux.yml
+    - include: tasks/neovim.yml
     - include: tasks/misc.yml
