@@ -2,20 +2,20 @@
   become: true
   apt:
     name: zsh
-  tags: 
+  tags:
     - zsh
     - essentials
 
 - name: Change shell to zsh
   become: true
   shell: chsh -s $(which zsh)
-  tags: 
+  tags:
     - zsh
     - essentials
 
 - name: Install Oh-My-Zsh
   shell: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  tags: 
+  tags:
     - zsh
     - essentials
 
@@ -23,59 +23,44 @@
   stat:
     path: "{{ home }}/.zshrc.pre-oh-my-zsh"
   register: old_zshrc_exists
-  tags: 
+  tags:
     - zsh
     - essentials
 
 - name: Replace .zshrc with .zshrc.pre-oh-my-zsh
   shell: "rm -rf {{ home }}/.zshrc && mv {{ home }}/.zshrc.pre-oh-my-zsh {{ home }}/.zshrc"
   when: old_zshrc_exists.stat.exists
-  tags: 
+  tags:
     - zsh
     - essentials
 
-- name: Install Spaceship theme
+- name: Install git repositories and set permissions
   git:
-    repo: https://github.com/spaceship-prompt/spaceship-prompt.git
-    dest: "{{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt"
-  tags: 
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+  tags:
     - zsh
     - essentials
+  loop:
+    - repo: https://github.com/spaceship-prompt/spaceship-prompt.git
+      dest: "{{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt"
+    - repo: https://github.com/agkozak/zsh-z.git
+      dest: "{{ home }}/.oh-my-zsh/plugins/zsh-z"
+    - repo: https://github.com/zsh-users/zsh-autosuggestions.git
+      dest: "{{ home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+  register: git_repos
 
-- name: Change permissions for Spaceship theme folder
+- name: Set permissions for git repositories
   file:
-    path: "{{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt"
+    path: "{{ item.item.dest }}"
     mode: 0775
-  tags: 
+  tags:
     - zsh
     - essentials
+  loop: "{{ git_repos.results }}"
 
 - name: Symlink spaceship.zsh-theme to oh-my-zsh custom themes directory
   shell: "ln -s {{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme {{ home }}/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
-  tags: 
-    - zsh
-    - essentials
-
-- name: Install zsh-z plugin
-  git:
-    repo: https://github.com/agkozak/zsh-z.git
-    dest: "{{ home }}/.oh-my-zsh/plugins/zsh-z" 
-  tags: 
-    - zsh
-    - essentials
-
-- name: Install zsh-autosuggestions
-  git:
-    repo: https://github.com/zsh-users/zsh-autosuggestions.git
-    dest: "{{ home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-  tags: 
-    - zsh
-    - essentials
-
-- name: Change permissions for zsh-autosuggestions
-  file:
-    path: "{{ home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-    mode: 0775
-  tags: 
+  tags:
     - zsh
     - essentials
