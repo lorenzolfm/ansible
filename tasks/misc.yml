@@ -1,9 +1,14 @@
-- name: Install KeePassXc
+- name: Install packages
   become: true
   apt:
-    name: keepassxc
-  tags: 
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
     - keepassxc
+    - telegram-desktop
+    - gnome-tweaks
+  tags:
     - misc
 
 - name: Download password repo
@@ -235,14 +240,4 @@
   when: display_env_var.stdout != ""
   tags:
     - sparrow
-    - misc
-
-- name: Install GNOME Tweak Tool
-  become: true
-  ansible.builtin.apt:
-    name: gnome-tweaks
-    state: present
-    update_cache: yes
-  tags:
-    - gnome-tweaks
     - misc
