@@ -1,21 +1,14 @@
 - hosts: localhost
-  become: yes
-  become_user: lorenzo
   vars:
-    user: "{{ lookup('env', 'USER') }}"
-    home: "{{ lookup('env', 'HOME') }}"
-    ssh_dir: "./.ssh"
-    config: "/usr/bin/git --git-dir={{ lookup('env', 'HOME') }}/.cfg/ --work-tree={{ lookup('env', 'HOME') }}"
-  vars_prompt:
-    - name: "password"
-      prompt: Enter password
-      private: yes
+    home: "{{ home }}"
+    ssh_dir: "./.ssh/"
+    config: "/usr/bin/git --git-dir={{ home }}/.cfg/ --work-tree={{ home }}"
   tasks:
-    - include: tasks/debug.yml
     - include: tasks/ssh.yml
     - include: tasks/dotfiles.yml
-    - include: tasks/nerdfonts.yml
-    - include: tasks/tmux.yml
+    - include: tasks/languages.yml
     - include: tasks/zsh.yml
+    - include: tasks/docker.yml
+    - include: tasks/tmux.yml
     - include: tasks/neovim.yml
-    - include: tasks/lsp.yml
+    - include: tasks/misc.yml

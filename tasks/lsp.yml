@@ -4,3 +4,4 @@
   shell: git clone https://github.com/rust-lang/rust-analyzer.git && cd rust-analyzer && cargo xtask install --server
   tags:
     - lsp
+    - essentials

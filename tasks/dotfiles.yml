@@ -1,20 +1,101 @@
-- name: Ignore .cfg folder to avoid recursion problems with dotfiles
+- name: Ignore .cfg folder to avoid wierd recursion problems with the dotfiles
   shell: echo ".cfg" >> {{ home }}/.gitignore
-  tags:
+  tags: 
     - dotfiles
+    - essentials
+
+- name: Set correct file permissions
+  file:
+    path: "{{ home }}/.gitignore"
+    mode: 0664
+  tags: 
+    - dotfiles
+    - essentials
 
 - name: Clone dotfiles into a bare repository
-  shell: git clone --bare git@github.com:lorenzolfm/dotfiles.git {{ home }}/.cfg
-  tags:
+  git:
+    repo: git@github.com:lorenzolfm/dotfiles.git
+    dest: "{{ home }}/.cfg"
+    key_file: "{{ home }}/.ssh/id_rsa"
+    bare: true
+  tags: 
     - dotfiles
+    - essentials
+
+- name: Set correct directory permissions
+  file:
+    path: "{{ home }}/.cfg"
+    mode: 0775
+  tags: 
+    - dotfiles
+    - essentials
 
 - name: Checkout the content from the bare repo to home
   shell: "{{ config }} checkout"
-  tags:
+  tags: 
     - dotfiles
+    - essentials
 
 - name: Set the flag showUntrackedFiles to no on this specific (local) repo
   shell:
     "{{ config }} config --local status.showUntrackedFiles no"
-  tags:
+  tags: 
     - dotfiles
+    - essentials
+
+- name: Set the correct permissions for nvim
+  file:
+    path: "{{ home }}/.config/nvim"
+    mode: 0775
+  tags: 
+    - dotfiles
+    - essentials
+
+- name: Set the correct permissions for ssh config
+  file:
+    path: "{{ home }}/.ssh/config"
+    mode: 0604
+  tags: 
+    - dotfiles
+    - essentials
+
+
+- name: Set the correct permissions for .aliases
+  file:
+    path: "{{ home }}/.aliases"
+    mode: 0664
+  tags: 
+    - dotfiles
+    - essentials
+
+- name: Set the correct permissions for .gitconfig
+  file:
+    path: "{{ home }}/.gitconfig"
+    mode: 0664
+  tags: 
+    - dotfiles
+    - essentials
+
+- name: Set the correct permissions for .tmux.conf
+  file:
+    path: "{{ home }}/.tmux.conf"
+    mode: 0664
+  tags: 
+    - dotfiles
+    - essentials
+
+- name: Set the correct permissions for .zshenv
+  file:
+    path: "{{ home }}/.zshenv"
+    mode: 0664
+  tags: 
+    - dotfiles
+    - essentials
+
+- name: Set the correct permissions for .zshrc
+  file:
+    path: "{{ home }}/.zshrc"
+    mode: 0664
+  tags: 
+    - dotfiles
+    - essentials

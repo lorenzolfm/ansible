@@ -1,14 +1,65 @@
-- name: Install NeoVim
-  shell: "curl -L https://github.com/neovim/neovim/releases/download/v0.7.2/nvim.appimage -o {{ home }}/nvim.appimage"
+- name: Install fd-find (telescope dependencies)
+  become: true
+  apt:
+    name: fd-find
   tags:
     - neovim
+    - essentials
+
+- name: Create .local/bin directory
+  shell: "mkdir -p {{ home }}/.local/bin"
+  tags:
+    - neovim
+    - essentials
+
+- name: Create symbolik link to fd in .local/bin
+  shell: "ln -s $(which fdfind) {{ home }}/.local/bin/fd"
+  tags:
+    - neovim
+    - essentials
+
+- name: Install ripgrep (telescope dependencies)
+  become: true
+  apt:
+    name: ripgrep
+  tags:
+    - neovim
+    - essentials
+
+- name: Install NeoVim
+  shell: "curl -L https://github.com/neovim/neovim/releases/download/v0.9.0/nvim.appimage -o {{ home }}/nvim.appimage"
+  tags:
+    - neovim
+    - essentials
 
 - name: Make it executable
   shell: "chmod u+x {{ home }}/nvim.appimage"
   tags:
     - neovim
+    - essentials
 
-- name: Install Vim-Plug
-  shell: "sh -c 'curl -fLo {{ home }}/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'"
+- name: Change permissions for fonts
+  file:
+    path: "{{ home }}/nvim.appimage"
+    mode: 0775
   tags:
     - neovim
+    - essentials
+
+- name: Install Packer Sync
+  git:
+    repo: https://github.com/wbthomason/packer.nvim
+    dest: "{{ home }}/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    depth: 1
+    version: HEAD
+  tags:
+    - neovim
+    - essentials
+
+- name: Change permissions for packer
+  file:
+    path: "{{ home }}/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    mode: 0775
+  tags:
+    - neovim
+    - essentials

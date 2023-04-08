@@ -1,10 +1,3 @@
-- name: Pls help me god
-  debug:
-    msg: "User: {{ user }}, Home: {{ home }}, Config: {{ config }}"
-  tags:
-    - debug
-    - ssh
-
 - name: Ensure .ssh directory exists
   file:
     dest: "{{ home }}/.ssh"
@@ -12,6 +5,7 @@
     state: directory
   tags:
     - ssh
+    - essentials
 
 - name: Copy personal ssh private key
   copy:
@@ -20,6 +14,7 @@
     mode: 0600
   tags:
     - ssh
+    - essentials
 
 - name: Copy personal ssh public key
   copy:
@@ -28,19 +23,13 @@
     mode: 0644
   tags:
     - ssh
+    - essentials
 
-- name: Copy work ssh private key
+- name: Copy known hosts
   copy:
-    src: "{{ ssh_dir }}/id_rsa_work"
-    dest: "{{ home }}/.ssh/id_rsa_work"
-    mode: 0600
-  tags:
-    - ssh
-
-- name: Copy work ssh public key
-  copy:
-    src: "{{ ssh_dir }}/id_rsa_work.pub"
-    dest: "{{ home }}/.ssh/id_rsa_work.pub"
+    src: "{{ ssh_dir }}/known_hosts"
+    dest: "{{ home }}/.ssh/known_hosts"
     mode: 0644
   tags:
     - ssh
+    - essentials

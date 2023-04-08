@@ -1,0 +1,37 @@
+- name: Download Installer
+  get_url:
+    url: https://sh.rustup.rs
+    dest: /tmp/sh.rustup.rs
+    mode: 0755
+    force: 'yes'
+  tags: 
+    - languages
+    - essentials
+
+- name: Install rust/cargo
+  shell: /tmp/sh.rustup.rs -y
+  tags: 
+    - languages
+    - essentials
+
+- name: Install nodejs and npm
+  become: true
+  apt:
+    name: ["nodejs", "npm"]
+  tags: 
+    - languages
+    - essentials
+
+- name: Install nvm
+  shell: "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash"
+  tags: 
+    - languages
+    - essentials
+
+- name: Change permissions for nvm
+  file:
+    path: "{{ home }}/.nvm"
+    mode: 0775
+  tags: 
+    - languages
+    - essentials

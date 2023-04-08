@@ -1,4 +1,23 @@
-- name: Install tmux-plugin-manager
-  shell: "git clone https://github.com/tmux-plugins/tpm.git {{ home }}/.tmux/plugins/tpm"
+- name: Install tmux
+  become: true
+  apt:
+    name: "tmux"
   tags:
     - tmux
+    - essentials
+
+- name: Install tmux-plugin-manager
+  git:
+    repo: "https://github.com/tmux-plugins/tpm.git"
+    dest: "{{ home }}/.tmux/plugins/tpm"
+  tags:
+    - tmux
+    - essentials
+
+- name: Change permissions for tpm
+  file:
+    path: "{{ home }}/.tmux/plugins/tpm"
+    mode: 0775
+  tags:
+    - tmux
+    - essentials
