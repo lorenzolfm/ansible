@@ -1,14 +1,6 @@
 - name: Ignore .cfg folder to avoid wierd recursion problems with the dotfiles
   shell: echo ".cfg" >> {{ home }}/.gitignore
-  tags: 
-    - dotfiles
-    - essentials
-
-- name: Set correct file permissions
-  file:
-    path: "{{ home }}/.gitignore"
-    mode: 0664
-  tags: 
+  tags:
     - dotfiles
     - essentials
 
@@ -18,84 +10,37 @@
     dest: "{{ home }}/.cfg"
     key_file: "{{ home }}/.ssh/id_rsa"
     bare: true
-  tags: 
-    - dotfiles
-    - essentials
-
-- name: Set correct directory permissions
-  file:
-    path: "{{ home }}/.cfg"
-    mode: 0775
-  tags: 
+  tags:
     - dotfiles
     - essentials
 
 - name: Checkout the content from the bare repo to home
   shell: "{{ config }} checkout"
-  tags: 
+  tags:
     - dotfiles
     - essentials
 
 - name: Set the flag showUntrackedFiles to no on this specific (local) repo
   shell:
     "{{ config }} config --local status.showUntrackedFiles no"
-  tags: 
+  tags:
     - dotfiles
     - essentials
 
-- name: Set the correct permissions for nvim
+- name: Set the correct permissions for configs
   file:
-    path: "{{ home }}/.config/nvim"
-    mode: 0775
-  tags: 
+    path: "{{ home }}/{{ item.path }}"
+    mode: "{{ item.mode }}"
+  tags:
     - dotfiles
     - essentials
-
-- name: Set the correct permissions for ssh config
-  file:
-    path: "{{ home }}/.ssh/config"
-    mode: 0604
-  tags: 
-    - dotfiles
-    - essentials
-
-
-- name: Set the correct permissions for .aliases
-  file:
-    path: "{{ home }}/.aliases"
-    mode: 0664
-  tags: 
-    - dotfiles
-    - essentials
-
-- name: Set the correct permissions for .gitconfig
-  file:
-    path: "{{ home }}/.gitconfig"
-    mode: 0664
-  tags: 
-    - dotfiles
-    - essentials
-
-- name: Set the correct permissions for .tmux.conf
-  file:
-    path: "{{ home }}/.tmux.conf"
-    mode: 0664
-  tags: 
-    - dotfiles
-    - essentials
-
-- name: Set the correct permissions for .zshenv
-  file:
-    path: "{{ home }}/.zshenv"
-    mode: 0664
-  tags: 
-    - dotfiles
-    - essentials
-
-- name: Set the correct permissions for .zshrc
-  file:
-    path: "{{ home }}/.zshrc"
-    mode: 0664
-  tags: 
-    - dotfiles
-    - essentials
+  loop:
+    - { path: '.gitignore', mode: '0664' }
+    - { path: '.cfg', mode: '0775' }
+    - { path: '.config/nvim', mode: '0775' }
+    - { path: '.ssh/config', mode: '0604' }
+    - { path: '.aliases', mode: '0664' }
+    - { path: '.gitconfig', mode: '0664' }
+    - { path: '.tmux.conf', mode: '0664' }
+    - { path: '.zshenv', mode: '0664' }
+    - { path: '.zshrc', mode: '0664' }
