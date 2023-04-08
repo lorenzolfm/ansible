@@ -236,3 +236,13 @@
   tags:
     - sparrow
     - misc
+
+- name: Install GNOME Tweak Tool
+  become: true
+  ansible.builtin.apt:
+    name: gnome-tweaks
+    state: present
+    update_cache: yes
+  tags:
+    - gnome-tweaks
+    - misc

@@ -51,3 +51,7 @@ assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.local/bin/b
 echo -e "\nTesting Sparrow...\n"
 
 assert_exits_has_correct_owner_group_and_permissions "/opt/sparrow/" "root" "root" 755
+
+echo -e "\nTesting Gnome Tweaks...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/usr/bin/gnome-tweaks" "root" "root" 755
