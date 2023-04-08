@@ -43,3 +43,7 @@ assert_exits_has_correct_owner_group_and_permissions "/usr/bin/discord" "root" "
 echo -e "\nTesting Telegram...\n"
 
 assert_exits_has_correct_owner_group_and_permissions "/usr/bin/telegram-desktop" "root" "root" 755
+
+echo -e "\nTesting Bitwarden...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.local/bin/bitwarden.AppImage" "lorenzo" "lorenzo" 775
