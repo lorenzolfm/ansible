@@ -201,6 +201,32 @@
     - bitwarden
     - misc
 
+- name: Download Sparrow .deb file
+  become: true
+  get_url:
+    url: https://github.com/sparrowwallet/sparrow/releases/download/1.7.4/sparrow_1.7.4-1_amd64.deb
+    dest: /tmp/sparrow_1.7.4-1_amd64.deb
+  tags:
+    - sparrow
+    - misc
+
+- name: Install Sparrow from the .deb file
+  become: true
+  apt:
+    deb: /tmp/sparrow_1.7.4-1_amd64.deb
+  tags:
+    - sparrow
+    - misc
+
+- name: Remove downloaded Sparrow .deb file
+  become: true
+  file:
+    path: /tmp/sparrow_1.7.4-1_amd64.deb
+    state: absent
+  tags:
+    - sparrow
+    - misc
+
 #- name: Verify Sparrow signature
   #shell: "gpg --verify sparrow-1.7.3-manifest.txt.asc"
   #args:
