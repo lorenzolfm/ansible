@@ -152,8 +152,8 @@
     - nerdfonts
     - misc
 
-- name: Install FiraCode
-  shell: "{{ home }}/./nerd-fonts/install.sh FiraCode"
+- name: Install fonts
+  shell: "{{ home }}/./nerd-fonts/install.sh"
   tags:
     - nerdfonts
     - misc
