@@ -47,3 +47,7 @@ assert_exits_has_correct_owner_group_and_permissions "/usr/bin/telegram-desktop"
 echo -e "\nTesting Bitwarden...\n"
 
 assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.local/bin/bitwarden.AppImage" "lorenzo" "lorenzo" 775
+
+echo -e "\nTesting Sparrow...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/opt/sparrow/" "root" "root" 755

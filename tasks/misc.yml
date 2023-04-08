@@ -201,11 +201,19 @@
     - bitwarden
     - misc
 
+- name: Check if DISPLAY environment variable is set
+  shell: echo $DISPLAY
+  register: display_env_var
+  tags:
+    - sparrow
+    - misc
+
 - name: Download Sparrow .deb file
   become: true
   get_url:
     url: https://github.com/sparrowwallet/sparrow/releases/download/1.7.4/sparrow_1.7.4-1_amd64.deb
     dest: /tmp/sparrow_1.7.4-1_amd64.deb
+  when: display_env_var.stdout != ""
   tags:
     - sparrow
     - misc
@@ -214,6 +222,7 @@
   become: true
   apt:
     deb: /tmp/sparrow_1.7.4-1_amd64.deb
+  when: display_env_var.stdout != ""
   tags:
     - sparrow
     - misc
@@ -223,40 +232,7 @@
   file:
     path: /tmp/sparrow_1.7.4-1_amd64.deb
     state: absent
+  when: display_env_var.stdout != ""
   tags:
     - sparrow
     - misc
-
-#- name: Verify Sparrow signature
-  #shell: "gpg --verify sparrow-1.7.3-manifest.txt.asc"
-  #args:
-    #chdir: /path/to/sparrow/directory
-  #tags:
-    #- sparrow
-    #- misc
-
-#- name: Check SHA256 checksum
-  #shell: "sha256sum --check sparrow-1.7.3-manifest.txt --ignore-missing"
-  #args:
-    #chdir: /path/to/sparrow/directory
-  #tags:
-    #- sparrow
-    #- misc
-
-#- name: Download and install Sparrow
-  #get_url:
-    #url: https://github.com/sparrowwallet/sparrow/releases/download/1.7.3/sparrow_1.7.3-1_amd64.deb
-    #dest: /tmp/sparrow.deb
-  #become: true
-  #tags:
-    #- sparrow
-    #- misc
-
-#- name: Install Sparrow package
-  #apt:
-    #deb: /tmp/sparrow.deb
-  #become: true
-  #tags:
-    #- sparrow
-    #- misc
-    #
