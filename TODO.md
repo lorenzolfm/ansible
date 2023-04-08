@@ -1,13 +1,5 @@
-# Install
-
-* Sparrow
-* Change terminal settings
-
-# Test
-
-* Tests for neovim task
-* Figure out what to do with commented tests on zsh task
-
 # Improvements
 
+* Shorten tasks by install with mode
+* Delete leftover installation stuff
 * Fix bugs when reruning
