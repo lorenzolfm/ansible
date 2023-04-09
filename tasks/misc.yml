@@ -61,54 +61,55 @@
   tags:
     - misc
 
-- name: Download password repo
-  git:
-    repo: git@github.com:lorenzolfm/pwds.git
-    dest: "{{ home }}/pwds"
-    key_file: "{{ home }}/.ssh/id_rsa"
-  tags: 
-    - keepassxc
-    - misc
-
-- name: Change permissions for passwords folder
-  file:
-    path: "{{ home }}/pwds"
-    mode: 0775
-  tags: 
-    - keepassxc
-    - misc
-
-- name: Add Spotify's GPG key
-  shell: curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
-  tags: 
-    - spotify
-    - misc
-
-- name: Add Spotify repository key and source
+- name: Add Spotify's GPG key and repository
   become: true
   shell: |
     curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
     echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
   tags:
-    - spotify
     - misc
 
-- name: Install Spotify client
+- name: Remove Any previous slacks
   become: true
   apt:
-    name: spotify-client
-    update_cache: yes
+    name: slack-desktop
+    state: absent
   tags:
-    - spotify
+    - slack
     - misc
 
-- name: Change permissions for spotify
+- name: Install .deb packages
   become: true
-  file:
-    path: "/usr/bin/spotify"
-    mode: 0777
-  tags: 
-    - spotify
+  apt:
+    deb: "{{ item }}"
+  loop:
+    - /tmp/sparrow_1.7.4-1_amd64.deb
+    - /tmp/slack.deb
+    - /tmp/discord.deb
+  loop_control:
+    loop_var: item
+  when: (display_env_var.stdout != "" and item == "/tmp/sparrow_1.7.4-1_amd64.deb") or (item != "/tmp/sparrow_1.7.4-1_amd64.deb")
+  tags:
+    - misc
+
+- name: Download repositories
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ home }}/{{ item.dest }}"
+    key_file: "{{ item.key_file | default(omit) }}"
+  loop:
+    - repo: git@github.com:lorenzolfm/pwds.git
+      dest: pwds
+      key_file: "{{ home }}/.ssh/id_rsa"
+    - repo: https://github.com/ryanoasis/nerd-fonts
+      dest: nerd-fonts
+  tags:
+    - misc
+
+- name: Install fonts
+  shell: "{{ home }}/./nerd-fonts/install.sh"
+  tags:
+    - nerdfonts
     - misc
 
 - name: Add Brave repository to sources list
@@ -122,145 +123,41 @@
     - brave
     - misc
 
-- name: Update apt cache
+- name: Install software packages and update apt cache
   become: true
   apt:
+    name: "{{ item }}"
     update_cache: yes
-  tags:
-    - brave
-    - misc
-
-- name: Install Brave browser
-  become: true
-  apt:
-    name: brave-browser
     state: present
+  with_items:
+    - spotify-client
+    - brave-browser
   tags:
-    - brave
     - misc
-
-- name: Remove Any previous slacks
-  become: true
-  apt:
-    name: slack-desktop
-    state: absent
-  tags:
-    - slack
-    - misc
-
-- name: Install Slack .deb package
-  become: true
-  apt:
-    deb: /tmp/slack.deb
-  tags:
-    - slack
-    - misc
-
-- name: Install Discord
-  become: true
-  apt:
-    deb: /tmp/discord.deb
-  tags:
-    - discord
-    - misc
-
-- name: Install Telegram
-  become: true
-  apt:
-    name: telegram-desktop
-  tags:
-    - telegram
-    - misc
-
-- name: Download nerdfonts
-  git:
-    repo: https://github.com/ryanoasis/nerd-fonts
-    dest: "{{ home }}/nerd-fonts"
-  tags: 
-    - nerdfonts
-    - misc
-
-- name: Install fonts
-  shell: "{{ home }}/./nerd-fonts/install.sh"
-  tags:
-    - nerdfonts
-    - misc
-
-- name: Remove nerd-fonts repo
-  shell: "rm -rf {{ home }}/nerd-fonts"
-  tags:
-    - nerdfonts
-    - misc
-
-- name: Change permissions for fonts
-  file:
-    path: "{{ home }}/.local/share/fonts/NerdFonts"
-    mode: 0775
-  tags:
-    - nerdfonts
-    - misc
-
-- name: Ensure ~/.local/bin directory exists
-  ansible.builtin.file:
-    path: "{{ home }}/.local/bin"
-    state: directory
-    mode: "0755"
-  tags:
-    - bitwarden
-    - misc
-
-- name: Get Bitwarden latest release URL
-  uri:
-    url: https://api.github.com/repos/bitwarden/desktop/releases/latest
-    return_content: yes
-    headers:
-      Accept: "application/vnd.github+json"
-  register: bitwarden_release
-  tags:
-    - bitwarden
-    - misc
-
-- name: Download Bitwarden AppImage
-  get_url:
-    url: "{{ bitwarden_release.json.assets | selectattr('name', 'contains', 'AppImage') | map(attribute='browser_download_url') | first }}"
-    dest: "{{ home }}/.local/bin/bitwarden.AppImage"
-    mode: "0775"
-  tags:
-    - bitwarden
-    - misc
-
-- name: Check if DISPLAY environment variable is set
-  shell: echo $DISPLAY
-  register: display_env_var
-  tags:
-    - sparrow
-    - misc
-
-- name: Download Sparrow .deb file
-  become: true
-  get_url:
-    url: https://github.com/sparrowwallet/sparrow/releases/download/1.7.4/sparrow_1.7.4-1_amd64.deb
-    dest: /tmp/sparrow_1.7.4-1_amd64.deb
-  when: display_env_var.stdout != ""
-  tags:
-    - sparrow
-    - misc
-
-- name: Install Sparrow from the .deb file
-  become: true
-  apt:
-    deb: /tmp/sparrow_1.7.4-1_amd64.deb
-  when: display_env_var.stdout != ""
-  tags:
-    - sparrow
-    - misc
-
-- name: Remove downloaded Sparrow .deb file
+- name: Change permissions
   become: true
   file:
-    path: /tmp/sparrow_1.7.4-1_amd64.deb
-    state: absent
-  when: display_env_var.stdout != ""
+    path: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - path: "/usr/bin/spotify"
+      mode: "0777"
+    - path: "{{ home }}/.local/share/fonts/NerdFonts"
+      mode: "0775"
+    - path: "{{ home }}/pwds"
+      mode: "0775"
   tags:
-    - sparrow
+    - misc
+
+- name: Remove files and directories
+  become: true
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop:
+    - path: "{{ home }}/nerd-fonts"
+    - path: "/tmp/sparrow_1.7.4-1_amd64.deb"
+      condition: display_env_var.stdout != ""
+  when: item.condition | default(true)
+  tags:
     - misc
