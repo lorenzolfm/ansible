@@ -23,7 +23,7 @@
     - misc
 
 - name: Ensure ~/.local/bin directory exists
-  ansible.builtin.file:
+  file:
     path: "{{ home }}/.local/bin"
     state: directory
     mode: "0755"
