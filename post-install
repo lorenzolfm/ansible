@@ -1,3 +1,4 @@
 dconf load /org/gnome/terminal/ < gnome-terminal-preferences.dconf && \
 chsh -s $(which zsh) && \
+sudo usermod -aG docker $USER && \
 sudo reboot

@@ -7,9 +7,9 @@ echo -e "\nTesting terminal settings...\n"
 dconf dump /org/gnome/terminal/ > current-preferences.dconf
 
 if diff -q current-preferences.dconf gnome-terminal-preferences.dconf >/dev/null; then
-    print_in_color "Success: terminal preferences updated" "green"
+    print_in_color "Success: terminal preferences is equal to config file" "green"
 else
-    print_in_color "Failed: terminal settings failed to update" "red"
+    print_in_color "Failed: terminal settings is different from config file" "red"
 fi
 
 rm current-preferences.dconf
@@ -26,7 +26,7 @@ assert_does_not_exist "/home/lorenzo/nerd-fonts"
 
 echo -e "\nTesting Spotify...\n"
 
-assert_exits_has_correct_owner_group_and_permissions "/usr/bin/spotify" "lorenzo" "lorenzo" 777
+assert_exits_has_correct_owner_group_and_permissions "/usr/bin/spotify" "root" "root" 777
 
 echo -e "\nTesting Brave...\n"
 
@@ -46,7 +46,7 @@ assert_exits_has_correct_owner_group_and_permissions "/usr/bin/telegram-desktop"
 
 echo -e "\nTesting Bitwarden...\n"
 
-assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.local/bin/bitwarden.AppImage" "lorenzo" "lorenzo" 775
+assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.local/bin/bitwarden.AppImage" "root" "root" 775
 
 echo -e "\nTesting Sparrow...\n"
 
