@@ -14,7 +14,7 @@ This repo has an ansible-playbook that installs and configs all the stuff I need
 * neovim
 
 # Testing
-I don't want to test this playbook by reinstalling my OS and running the playbook, so I created a docker container that simulates my OS
+I don't want to reinstall my OS every time I want to test something, so I created a docker container that simulates my OS and user.
 
 I also created bash scripts to test that everything works as expected, so I don't have to do this boring stuff manually
 
