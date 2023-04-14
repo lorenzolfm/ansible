@@ -55,3 +55,17 @@
   tags: 
     - docker
     - essentials
+
+- name: Create docker group
+  become: true
+  shell: sudo groupadd docker
+  tags:
+    - docker
+    - essentials
+
+- name: Add user to docker group
+  become: true
+  shell: sudo groupadd docker
+  tags:
+    - docker
+    - essentials
