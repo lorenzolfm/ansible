@@ -1,4 +1,4 @@
-- name: Install packages
+- name: Install keepassxc, telegram and gnome-tweaks
   become: true
   apt:
     name: "{{ item }}"
@@ -92,7 +92,7 @@
   tags:
     - misc
 
-- name: Download repositories
+- name: Download passwords and nerd-fonts
   git:
     repo: "{{ item.repo }}"
     dest: "{{ home }}/{{ item.dest }}"
