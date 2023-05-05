@@ -13,8 +13,17 @@
     - zsh
     - essentials
 
+- name: Check if Oh-My-Zsh already exists
+  stat:
+    path: "{{ home }}/.oh-my-zsh"
+  register: omz_exists
+  tags:
+    - zsh
+    - essentials
+
 - name: Install Oh-My-Zsh
   shell: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  when: not omz_exists.stat.exists
   tags:
     - zsh
     - essentials
@@ -59,8 +68,17 @@
     - essentials
   loop: "{{ git_repos.results }}"
 
+- name: Check if symlink to spaceship theme exists
+  stat:
+    path: "{{ home }}/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
+  register: symlink_exists
+  tags:
+    - zsh
+    - essentials
+
 - name: Symlink spaceship.zsh-theme to oh-my-zsh custom themes directory
   shell: "ln -s {{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme {{ home }}/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
+  when: not symlink_exists.stat.exists
   tags:
     - zsh
     - essentials
