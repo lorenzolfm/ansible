@@ -10,10 +10,19 @@
     - essentials
 
 - name: Create .local/bin directory and symlink fd
+  stat:
+    path: "{{ home }}/.local/bin/fd"
+  register: fd_stat
+  tags:
+    - neovim
+    - essentials
+
+- name: Create .local/bin directory and symlink fd if not exists
   shell:
     cmd: |
       mkdir -p {{ home }}/.local/bin
       ln -s $(which fdfind) {{ home }}/.local/bin/fd
+  when: not fd_stat.stat.exists
   tags:
     - neovim
     - essentials
