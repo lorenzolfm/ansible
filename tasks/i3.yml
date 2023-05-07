@@ -1,0 +1,8 @@
+- name: Install i3 window manager
+  become: true
+  apt:
+    name: i3
+    state: present
+  tags:
+    - essentials
+    - i3

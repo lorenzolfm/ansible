@@ -1,4 +1,4 @@
-- name: Install keepassxc, telegram and gnome-tweaks
+- name: Install keepassxc, telegram and gnome-tweaks, htop, obs-studio
   become: true
   apt:
     name: "{{ item }}"
@@ -8,6 +8,10 @@
     - keepassxc
     - telegram-desktop
     - gnome-tweaks
+    - htop
+    - obs-studio
+    - xclip
+    - neofetch
   tags:
     - misc
 
@@ -57,6 +61,12 @@
       mode: "0775"
     - url: https://github.com/sparrowwallet/sparrow/releases/download/1.7.4/sparrow_1.7.4-1_amd64.deb
       dest: /tmp/sparrow_1.7.4-1_amd64.deb
+    - url: https://download.kde.org/stable/kdenlive/23.04/linux/kdenlive-23.04.0a-x86_64.AppImage
+      dest: "{{ home }}/.local/bin/kdenlive.AppImage"
+      mode: "0775"
+    - url: https://github.com/audacity/audacity/releases/download/Audacity-3.3.2/audacity-linux-3.3.2-x64.AppImage
+      dest: "{{ home }}/.local/bin/audacity.AppImage"
+      mode: "0775"
   when: display_env_var.stdout != "" or item.url != 'https://github.com/sparrowwallet/sparrow/releases/download/1.7.4/sparrow_1.7.4-1_amd64.deb'
   tags:
     - misc
@@ -159,5 +169,11 @@
     - path: "/tmp/sparrow_1.7.4-1_amd64.deb"
       condition: display_env_var.stdout != ""
   when: item.condition | default(true)
+  tags:
+    - misc
+
+- name: Install sd, exa, bat
+  become: true
+  shell: "{{ home }}/.cargo/bin/cargo install sd exa bat"
   tags:
     - misc
