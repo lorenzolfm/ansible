@@ -55,3 +55,39 @@ assert_exits_has_correct_owner_group_and_permissions "/opt/sparrow/" "root" "roo
 echo -e "\nTesting Gnome Tweaks...\n"
 
 assert_exits_has_correct_owner_group_and_permissions "/usr/bin/gnome-tweaks" "root" "root" 755
+
+echo -e "\nTesting Htop...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/usr/bin/htop" "root" "root" 755
+
+echo -e "\nTesting Obs-Studio...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/usr/bin/obs" "root" "root" 755
+
+echo -e "\nTesting Kdenlive...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.local/bin/kdenlive.AppImage" "root" "root" 775
+
+echo -e "\nTesting Audacity...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.local/bin/audacity.AppImage" "root" "root" 775
+
+echo -e "\nTesting Xclip...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/usr/bin/xclip" "root" "root" 755
+
+echo -e "\nTesting Neofetch...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/usr/bin/neofetch" "root" "root" 755
+
+echo -e "\nTesting sd...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.cargo/bin/sd" "lorenzo" "lorenzo" 775
+
+echo -e "\nTesting exa...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.cargo/bin/exa" "lorenzo" "lorenzo" 775
+
+echo -e "\nTesting bat...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.cargo/bin/bat" "lorenzo" "lorenzo" 775

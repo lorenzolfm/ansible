@@ -1,0 +1,26 @@
+- name: Download Postman
+  shell:
+    cmd: |
+      curl -L https://dl.pstmn.io/download/latest/linux_64 -o {{ home }}/postman.tar.gz
+  tags:
+    - postman
+    - essentials
+
+- name: Check if Postman is installed
+  stat:
+    path: "/usr/bin/postman"
+  register: postman_installed
+  tags:
+    - postman
+    - essentials
+
+- name: Extract and install Postman
+  become: true
+  shell: |
+    tar -xzf {{ home }}/postman.tar.gz -C {{ home }}
+    sudo mv {{ home }}/Postman /opt
+    sudo ln -s /opt/Postman/Postman /usr/bin/postman
+  when: not postman_installed.stat.exists
+  tags:
+    - postman
+    - essentials
