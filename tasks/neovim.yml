@@ -36,7 +36,7 @@
     - neovim
     - essentials
 
-- name: Install Packer Sync
+- name: Install Packer
   git:
     repo: https://github.com/wbthomason/packer.nvim
     dest: "{{ home }}/.local/share/nvim/site/pack/packer/start/packer.nvim"
