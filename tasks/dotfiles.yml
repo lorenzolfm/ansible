@@ -1,28 +1,24 @@
-- name: Ignore .cfg folder to avoid wierd recursion problems with the dotfiles
-  shell: echo ".cfg" >> {{ home }}/.gitignore
+- name: Install Stow
+  become: true
+  apt:
+    name: stow
   tags:
     - dotfiles
     - essentials
 
-- name: Clone dotfiles into a bare repository
+- name: Clone dotfiles
   git:
-    repo: git@github.com:lorenzolfm/dotfiles.git
-    dest: "{{ home }}/.cfg"
+    repo: git@github.com:lorenzolfm/.dotfiles.git
+    dest: "{{ home }}/.dotfiles"
     key_file: "{{ home }}/.ssh/id_rsa"
-    bare: true
   tags:
     - dotfiles
     - essentials
 
-- name: Checkout the content from the bare repo to home
-  shell: "{{ config }} checkout"
-  tags:
-    - dotfiles
-    - essentials
-
-- name: Set the flag showUntrackedFiles to no on this specific (local) repo
-  shell:
-    "{{ config }} config --local status.showUntrackedFiles no"
+- name: Stow dotfiles
+  command:
+    cmd: stow .
+    chdir: "{{ home }}/.dotfiles"
   tags:
     - dotfiles
     - essentials
@@ -35,12 +31,17 @@
     - dotfiles
     - essentials
   loop:
-    - { path: '.gitignore', mode: '0664' }
-    - { path: '.cfg', mode: '0775' }
     - { path: '.config/nvim', mode: '0775' }
-    - { path: '.ssh/config', mode: '0604' }
-    - { path: '.aliases', mode: '0664' }
-    - { path: '.gitconfig', mode: '0664' }
+    - { path: '.config/i3', mode: '0775' }
+    - { path: '.config/i3status', mode: '0775' }
+    - { path: '.config/picom', mode: '0775' }
+    - { path: '.config/polybar', mode: '0775' }
+    - { path: '.config/rofi', mode: '0775' }
+    - { path: '.config/spaceship.zsh', mode: '0664' }
+    - { path: '.config/theme', mode: '0775' }
+    - { path: '.ssh/config', mode: '0777' }
+    - { path: '.aliases', mode: '0777' }
+    - { path: '.gitconfig', mode: '0777' }
     - { path: '.tmux.conf', mode: '0664' }
     - { path: '.zshenv', mode: '0664' }
     - { path: '.zshrc', mode: '0664' }
