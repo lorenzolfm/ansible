@@ -42,3 +42,39 @@
   tags:
     - essentials
     - i3
+
+- name: Install Picom
+  apt:
+    name: picom
+    state: present
+  become: true
+  tags:
+    - essentials
+    - picom
+
+- name: Install Rofi
+  apt:
+    name: rofi
+    state: present
+  become: true
+  tags:
+    - essentials
+    - rofi
+
+- name: Install Polybar
+  apt:
+    name: polybar
+    state: present
+  become: true
+  tags:
+    - essentials
+    - polybar
+
+- name: Install Player CTL
+  apt:
+    name: playerctl
+    state: present
+  become: true
+  tags:
+    - essentials
+    - playerctl
