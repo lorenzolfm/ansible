@@ -1,0 +1,115 @@
+- name: Download sur5r keyring
+  command:
+    cmd: /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2023.02.18_all.deb /tmp/keyring.deb SHA256:a511ac5f10cd811f8a4ca44d665f2fa1add7a9f09bef238cdfad8461f5239cc4
+  args:
+    creates: /tmp/keyring.deb
+  become: false
+  delegate_to: localhost
+  tags:
+    - essentials
+    - i3
+
+- name: Install sur5r keyring
+  apt:
+    deb: /tmp/keyring.deb
+  become: true
+  tags:
+    - essentials
+    - i3
+
+- name: Add sur5r i3 repository
+  shell: echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" | tee /etc/apt/sources.list.d/sur5r-i3.list
+  become: true
+  args:
+    creates: /etc/apt/sources.list.d/sur5r-i3.list
+  tags:
+    - essentials
+    - i3
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  become: true
+  tags:
+    - essentials
+    - i3
+
+- name: Install i3
+  apt:
+    name: i3
+    state: present
+  become: true
+  tags:
+    - essentials
+    - i3
+
+- name: Install Picom
+  apt:
+    name: picom
+    state: present
+  become: true
+  tags:
+    - essentials
+    - picom
+
+- name: Install Rofi
+  apt:
+    name: rofi
+    state: present
+  become: true
+  tags:
+    - essentials
+    - rofi
+
+- name: Install Polybar
+  apt:
+    name: polybar
+    state: present
+  become: true
+  tags:
+    - essentials
+    - polybar
+
+- name: Install Player CTL
+  apt:
+    name: playerctl
+    state: present
+  become: true
+  tags:
+    - essentials
+    - playerctl
+
+- name: Install setuptools for Python3
+  apt:
+    name: python3-setuptools
+    state: present
+  become: true
+  tags:
+    - essentials
+    - zscroll
+
+- name: Clone zscroll repository
+  git:
+    repo: https://github.com/noctuid/zscroll.git
+    dest: /tmp/zscroll
+  tags:
+    - essentials
+    - zscroll
+
+- name: Replace distutils with setuptools in setup.py
+  replace:
+    path: /tmp/zscroll/setup.py
+    regexp: 'from distutils.core import setup'
+    replace: 'from setuptools import setup'
+  tags:
+    - essentials
+    - zscroll
+
+- name: Install zscroll using setup.py
+  command:
+    cmd: python3 setup.py install
+    chdir: /tmp/zscroll
+  become: true
+  tags:
+    - essentials
+    - zscroll

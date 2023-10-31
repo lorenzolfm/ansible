@@ -1,13 +1,11 @@
-- name: Install keepassxc, telegram and gnome-tweaks, htop, obs-studio
+- name: Telegram, htop, obs-studio
   become: true
   apt:
     name: "{{ item }}"
     state: present
     update_cache: yes
   loop:
-    - keepassxc
     - telegram-desktop
-    - gnome-tweaks
     - htop
     - obs-studio
     - xclip
@@ -102,15 +100,11 @@
   tags:
     - misc
 
-- name: Download passwords and nerd-fonts
+- name: Download nerd-fonts
   git:
     repo: "{{ item.repo }}"
     dest: "{{ home }}/{{ item.dest }}"
-    key_file: "{{ item.key_file | default(omit) }}"
   loop:
-    - repo: git@github.com:lorenzolfm/pwds.git
-      dest: pwds
-      key_file: "{{ home }}/.ssh/id_rsa"
     - repo: https://github.com/ryanoasis/nerd-fonts
       dest: nerd-fonts
   tags:
@@ -154,8 +148,6 @@
       mode: "0777"
     - path: "{{ home }}/.local/share/fonts/NerdFonts"
       mode: "0775"
-    - path: "{{ home }}/pwds"
-      mode: "0775"
   tags:
     - misc
 
@@ -169,11 +161,5 @@
     - path: "/tmp/sparrow_1.7.4-1_amd64.deb"
       condition: display_env_var.stdout != ""
   when: item.condition | default(true)
-  tags:
-    - misc
-
-- name: Install sd, exa, bat
-  become: true
-  shell: "{{ home }}/.cargo/bin/cargo install sd exa bat"
   tags:
     - misc

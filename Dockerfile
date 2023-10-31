@@ -1,14 +1,14 @@
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && \
-    apt-get install sudo && \
-    apt-get install -y software-properties-common && \
+RUN apt update && \
+    apt install sudo && \
+    apt install -y software-properties-common && \
     apt-add-repository -y ppa:ansible/ansible && \
-    apt-get update && \
-    apt-get install -y curl git ansible build-essential && \
-    apt-get update
+    apt update && \
+    apt install -y curl git ansible build-essential && \
+    apt update
 
 RUN useradd -m lorenzo && usermod -aG sudo lorenzo
 RUN echo "lorenzo:password" | chpasswd

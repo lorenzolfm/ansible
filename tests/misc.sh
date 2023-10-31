@@ -14,11 +14,6 @@ fi
 
 rm current-preferences.dconf
 
-echo -e "\nTesting keepass...\n"
-
-assert_exits_has_correct_owner_group_and_permissions "/usr/bin/keepassxc" "root" "root" 755
-assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/pwds" "lorenzo" "lorenzo" 775
-
 echo -e "\nTesing Nerdfonts...\n"
 
 assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.local/share/fonts/NerdFonts" "lorenzo" "lorenzo" 775
@@ -51,10 +46,6 @@ assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.local/bin/b
 echo -e "\nTesting Sparrow...\n"
 
 assert_exits_has_correct_owner_group_and_permissions "/opt/sparrow/" "root" "root" 755
-
-echo -e "\nTesting Gnome Tweaks...\n"
-
-assert_exits_has_correct_owner_group_and_permissions "/usr/bin/gnome-tweaks" "root" "root" 755
 
 echo -e "\nTesting Htop...\n"
 

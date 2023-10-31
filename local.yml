@@ -11,7 +11,7 @@
     - include: tasks/docker.yml
     - include: tasks/tmux.yml
     - include: tasks/neovim.yml
-    - include: tasks/i3.yml
+    - include: tasks/os.yml
     - include: tasks/gh.yml
     - include: tasks/postman.yml
     - include: tasks/misc.yml
