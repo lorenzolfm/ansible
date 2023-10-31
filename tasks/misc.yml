@@ -1,4 +1,4 @@
-- name: Telegram and gnome-tweaks, htop, obs-studio
+- name: Telegram, htop, obs-studio
   become: true
   apt:
     name: "{{ item }}"
@@ -6,7 +6,6 @@
     update_cache: yes
   loop:
     - telegram-desktop
-    - gnome-tweaks
     - htop
     - obs-studio
     - xclip
@@ -101,7 +100,7 @@
   tags:
     - misc
 
-- name: Download passwords and nerd-fonts
+- name: Download nerd-fonts
   git:
     repo: "{{ item.repo }}"
     dest: "{{ home }}/{{ item.dest }}"
@@ -162,11 +161,5 @@
     - path: "/tmp/sparrow_1.7.4-1_amd64.deb"
       condition: display_env_var.stdout != ""
   when: item.condition | default(true)
-  tags:
-    - misc
-
-- name: Install sd, exa, bat
-  become: true
-  shell: "{{ home }}/.cargo/bin/cargo install sd exa bat"
   tags:
     - misc
