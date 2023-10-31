@@ -25,8 +25,8 @@ docker build -t ansible-test . && docker run --rm -it ansible-test bash
 
 # Running
 
-This is how I run the playbook:
+This is how I install and test everything
 
 ```bash
-ansible-playbook local.yml --ask-vault-pass --extra-vars "home=/home/lorenzo" -K
+./run.sh
 ```
