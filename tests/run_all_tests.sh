@@ -8,7 +8,7 @@ source ./tests/ssh.sh
 source ./tests/zsh.sh
 source ./tests/tmux.sh
 source ./tests/neovim.sh
-source ./tests/i3.sh
+source ./tests/os.sh
 source ./tests/gh.sh
 source ./tests/postman.sh
 source ./tests/misc.sh

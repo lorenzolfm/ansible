@@ -78,3 +78,38 @@
   tags:
     - essentials
     - playerctl
+
+- name: Install setuptools for Python3
+  apt:
+    name: python3-setuptools
+    state: present
+  become: true
+  tags:
+    - essentials
+    - zscroll
+
+- name: Clone zscroll repository
+  git:
+    repo: https://github.com/noctuid/zscroll.git
+    dest: /tmp/zscroll
+  tags:
+    - essentials
+    - zscroll
+
+- name: Replace distutils with setuptools in setup.py
+  replace:
+    path: /tmp/zscroll/setup.py
+    regexp: 'from distutils.core import setup'
+    replace: 'from setuptools import setup'
+  tags:
+    - essentials
+    - zscroll
+
+- name: Install zscroll using setup.py
+  command:
+    cmd: python3 setup.py install
+    chdir: /tmp/zscroll
+  become: true
+  tags:
+    - essentials
+    - zscroll

@@ -8,3 +8,4 @@ assert_exits_has_correct_owner_group_and_permissions "/usr/bin/picom" "root" "ro
 assert_exits_has_correct_owner_group_and_permissions "/usr/bin/rofi" "root" "root" 755
 assert_exits_has_correct_owner_group_and_permissions "/usr/bin/polybar" "root" "root" 755
 assert_exits_has_correct_owner_group_and_permissions "/usr/bin/playerctl" "root" "root" 755
+assert_exits_has_correct_owner_group_and_permissions "/usr/local/bin/zscroll" "root" "root" 755
