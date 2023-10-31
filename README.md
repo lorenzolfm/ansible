@@ -12,6 +12,7 @@ This repo has an ansible-playbook that installs and configs all the stuff I need
 * tmux
 * zsh
 * neovim
+* and much more...
 
 # Testing
 I don't want to reinstall my OS every time I want to test something, so I created a docker container that simulates my OS and user.
