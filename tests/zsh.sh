@@ -5,7 +5,7 @@ echo -e "\nTesting the zsh task\n"
 
 assert_exits_has_correct_owner_group_and_permissions "/usr/bin/zsh" "root" "root" 755
 assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.oh-my-zsh/" "lorenzo" "lorenzo" 755
-assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.oh-my-zsh/custom/themes/spaceship-prompt/" "lorenzo" "lorenzo" 775
+assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.oh-my-zsh/plugins/fzf-zsh-plugin/" "lorenzo" "lorenzo" 755
 assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.oh-my-zsh/plugins/z/" "lorenzo" "lorenzo" 755
 assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.oh-my-zsh/custom/plugins/zsh-autosuggestions/" "lorenzo" "lorenzo" 775
 
