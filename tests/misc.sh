@@ -82,3 +82,7 @@ assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.cargo/bin/e
 echo -e "\nTesting bat...\n"
 
 assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.cargo/bin/bat" "lorenzo" "lorenzo" 775
+
+echo -e "\nTesting starship...\n"
+
+assert_exits_has_correct_owner_group_and_permissions "/home/lorenzo/.cargo/bin/starship" "lorenzo" "lorenzo" 775

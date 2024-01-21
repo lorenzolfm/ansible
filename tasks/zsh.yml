@@ -51,8 +51,8 @@
     - zsh
     - essentials
   loop:
-    - repo: https://github.com/spaceship-prompt/spaceship-prompt.git
-      dest: "{{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt"
+    - repo: https://github.com/unixorn/fzf-zsh-plugin.git
+      dest: "{{ home }}/.oh-my-zsh/plugins/fzf-zsh-plugin"
     - repo: https://github.com/agkozak/zsh-z.git
       dest: "{{ home }}/.oh-my-zsh/plugins/zsh-z"
     - repo: https://github.com/zsh-users/zsh-autosuggestions.git
@@ -67,18 +67,3 @@
     - zsh
     - essentials
   loop: "{{ git_repos.results }}"
-
-- name: Check if symlink to spaceship theme exists
-  stat:
-    path: "{{ home }}/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
-  register: symlink_exists
-  tags:
-    - zsh
-    - essentials
-
-- name: Symlink spaceship.zsh-theme to oh-my-zsh custom themes directory
-  shell: "ln -s {{ home }}/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme {{ home }}/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
-  when: not symlink_exists.stat.exists
-  tags:
-    - zsh
-    - essentials
