@@ -4,14 +4,14 @@
     ssh_dir: "./.ssh/"
     config: "/usr/bin/git --git-dir={{ home }}/.cfg/ --work-tree={{ home }}"
   tasks:
-    - include: tasks/ssh.yml
-    - include: tasks/dotfiles.yml
-    - include: tasks/languages.yml
-    - include: tasks/zsh.yml
-    - include: tasks/docker.yml
-    - include: tasks/tmux.yml
-    - include: tasks/neovim.yml
-    - include: tasks/os.yml
-    - include: tasks/gh.yml
-    - include: tasks/postman.yml
-    - include: tasks/misc.yml
+    - import_tasks: tasks/ssh.yml
+    - import_tasks: tasks/dotfiles.yml
+    - import_tasks: tasks/languages.yml
+    - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/docker.yml
+    - import_tasks: tasks/tmux.yml
+    - import_tasks: tasks/neovim.yml
+    - import_tasks: tasks/os.yml
+    - import_tasks: tasks/gh.yml
+    - import_tasks: tasks/postman.yml
+    - import_tasks: tasks/misc.yml
